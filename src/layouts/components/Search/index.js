@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { faCircleXmark, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import HeadlessTippy from '@tippyjs/react/headless';
-import * as searchServices from '~/apiServices/searchServices';
+import * as searchServices from '~/services/searchService';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,6 +36,7 @@ function Search() {
         };
 
         fetchApi();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounced]);
 
     const handleClear = () => {
@@ -56,16 +57,9 @@ function Search() {
         }
     };
 
-    const handleSubmit = () => {
-        if (!searchValue.trim()) {
-            return;
-        }
-        setShowResult(true);
-        setSearchResult([]);
-    };
-
     return (
         <HeadlessTippy
+            appendTo={document.body}
             visible={showResult && searchResult.length > 0}
             interactive={true}
             render={(attrs) => (
